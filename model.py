@@ -34,7 +34,7 @@ class upsamping(nn.Module):
 
 class UNet(nn.Module):
 
-    def __init__(self,in_channels=3,n_class=2):
+    def __init__(self,in_channels=3,n_class=1):
         super(UNet,self).__init__()
         self.maxpool=nn.MaxPool2d(kernel_size=2,stride=2)  # 2×2
         self.conv1=conv_block(in_channels,64)

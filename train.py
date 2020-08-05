@@ -31,6 +31,7 @@ for epoch in range(1000):
     optimizer.zero_grad()
     with amp.scale_loss(loss, optimizer) as scaled_loss:
       scaled_loss.backward()
+    # loss.backward()
     optimizer.step()
   lr_schedular.step()
   model.eval()
@@ -45,4 +46,4 @@ for epoch in range(1000):
   if v_loss<best_loss:
       best_loss = v_loss
       torch.save(model.state_dict(), 'best.pkl')
-  print(f'epoch {epoch} | train loss:{t_loss:.4f} | valid loss:{v_loss:.4f}')
+  print(f'epoch {epoch} | train loss:{t_loss/900:.4f} | valid loss:{v_loss/100:.4f}')

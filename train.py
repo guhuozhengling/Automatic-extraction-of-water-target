@@ -55,4 +55,4 @@ for epoch in range(1000):
     es += 1
     if es > 10:
       break
-  print(f'epoch {epoch} | train loss:{t_loss/900:.4f} | valid loss:{v_loss/100:.4f}')
+  print(f'epoch {epoch} | train loss:{t_loss/4:.4f} | valid loss:{v_loss:.4f}')

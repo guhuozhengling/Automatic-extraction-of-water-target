@@ -7,7 +7,7 @@ import argparse
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--batch', type = int, default = 4)
+parser.add_argument('--batch', type = int, default = 32)
 parser.add_argument('--root', type = str, default = '../data')
 parser.add_argument('--start', type = int, default = 0)
 parser.add_argument('--end', type = int, default = 4000)

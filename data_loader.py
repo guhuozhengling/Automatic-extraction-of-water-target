@@ -108,6 +108,6 @@ class MyDataset(D.Dataset):
 
 def get_dataloader(BATCH_SIZE, root, start, end):
     img, mask = get_img(root)
-    train_loader = D.DataLoader(MyDataset(img[start:end], mask[start:end], trans), batch_size = BATCH_SIZE, shuffle = True, pin_memory = True, num_workers = 0)
-    valid_loader = D.DataLoader(MyDataset(img[:start]+img[end:], mask[:start]+mask[end:], trans), batch_size = BATCH_SIZE, pin_memory = True, num_workers = 0)
+    train_loader = D.DataLoader(MyDataset(img[:start]+img[end:], mask[:start]+mask[end:], trans), batch_size = BATCH_SIZE, shuffle = True, pin_memory = True, num_workers = 0)
+    valid_loader = D.DataLoader(MyDataset(img[start:end], mask[start:end], trans), batch_size = BATCH_SIZE, pin_memory = True, num_workers = 0)
     return train_loader, valid_loader

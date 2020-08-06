@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--batch', type = int, default = 32)
 parser.add_argument('--root', type = str, default = '../data')
 parser.add_argument('--start', type = int, default = 0)
-parser.add_argument('--end', type = int, default = 4000)
+parser.add_argument('--end', type = int, default = 1000)
 args = parser.parse_args()
 
 model = UNet()

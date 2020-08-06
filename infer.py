@@ -5,7 +5,7 @@ from PIL import Image
 from model import UNet
 
 model = UNet()
-model.load_state_dict(torch.load('best.pkl'))
+model.load_state_dict(torch.load('best0-1000.pkl'))
 model.to('cuda')
 
 img = Image.open('data/985.jpg')

@@ -91,10 +91,11 @@ def data_augment(xb,yb):
     return Image.fromarray(xb), Image.fromarray(yb)
 
 class MyDataset(D.Dataset):
-    def __init__(self, img, mask, transform):
+    def __init__(self, img, mask, transform, train = True):
         self.img = img
         self.mask = mask
         self.transform = transform
+        self.train = train
 
     def __len__(self):
         return len(self.img)
@@ -102,6 +103,8 @@ class MyDataset(D.Dataset):
     def __getitem__(self, idx):
         img = self.img[idx]
         mask = self.mask[idx]
+        if self.train:
+            img, mask = data_augment(img, mask)
         img = self.transform(img)
         mask = self.transform(mask)
         return img, mask
@@ -109,5 +112,5 @@ class MyDataset(D.Dataset):
 def get_dataloader(BATCH_SIZE, root, start, end):
     img, mask = get_img(root)
     train_loader = D.DataLoader(MyDataset(img[:start]+img[end:], mask[:start]+mask[end:], trans), batch_size = BATCH_SIZE, shuffle = True, pin_memory = True, num_workers = 0)
-    valid_loader = D.DataLoader(MyDataset(img[start:end], mask[start:end], trans), batch_size = BATCH_SIZE, pin_memory = True, num_workers = 0)
+    valid_loader = D.DataLoader(MyDataset(img[start:end], mask[start:end], trans, train = False), batch_size = BATCH_SIZE, pin_memory = True, num_workers = 0)
     return train_loader, valid_loader

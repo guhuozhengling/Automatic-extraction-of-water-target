@@ -4,21 +4,25 @@ from apex import amp
 import torch
 import torch.nn as nn
 import argparse
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch', type = int, default = 4)
+parser.add_argument('--root', type = str, default = '../data')
+parser.add_argument('--start', type = int, default = 0)
+parser.add_argument('--end', type = int, default = 4000)
 args = parser.parse_args()
 
 model = UNet()
 model.to('cuda')
-# criterion = DiceLoss()
 criterion = nn.BCEWithLogitsLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr = 0.001, betas = (0.9, 0.999), eps = 1e-8, weight_decay = 1e-8)
+optimizer = torch.optim.Adam(model.parameters(), lr = 0.001, betas = (0.9, 0.999), eps = 1e-8, weight_decay = 1e-7)
 model, optimizer = amp.initialize(model, optimizer, opt_level="O1", verbosity=0)
-lr_schedular = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones= [50, 100, 150, 200, 250], gamma = 0.5)
-train_loader, valid_loader = get_dataloader(args.batch)
-from tqdm import tqdm
+lr_schedular = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones= [10, 20, 30, 40, 50], gamma = 0.5)
+train_loader, valid_loader = get_dataloader(args.batch, args.root, args.start, args.end)
+
 best_loss = 100
+es = 0
 for epoch in range(1000):
   model.train()
   t_loss = 0
@@ -44,6 +48,11 @@ for epoch in range(1000):
       loss = criterion(output, mask)
       v_loss += loss.item()
   if v_loss<best_loss:
+      es = 0
       best_loss = v_loss
-      torch.save(model.state_dict(), 'best.pkl')
+      torch.save(model.state_dict(), f'best{args.start}-{args.end}.pkl')
+  else:
+    es += 1
+    if es > 10:
+      break
   print(f'epoch {epoch} | train loss:{t_loss/900:.4f} | valid loss:{v_loss/100:.4f}')

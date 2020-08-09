@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--batch', type = int, default = 32)
 parser.add_argument('--root', type = str, default = '../data')
 parser.add_argument('--start', type = int, default = 0)
-parser.add_argument('--end', type = int, default = 1000)
+parser.add_argument('--end', type = int, default = 800)
 args = parser.parse_args()
 
 model = UNet()
@@ -21,7 +21,7 @@ model, optimizer = amp.initialize(model, optimizer, opt_level="O1", verbosity=0)
 lr_schedular = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones= [10, 20, 30, 40, 50], gamma = 0.5)
 train_loader, valid_loader = get_dataloader(args.batch, args.root, args.start, args.end)
 
-best_loss = 100
+best_loss = float('inf')
 es = 0
 for epoch in range(1000):
   model.train()

@@ -24,12 +24,12 @@ def get_img(root):
         m2 = mask.crop((235,235,491,491))
         m3 = mask.crop((235,0,491,256))
         m4 = mask.crop((0,235,256,491))
-        img_.append(img)
+        # img_.append(img)
         img_.append(i1)
         img_.append(i2)
         img_.append(i3)
         img_.append(i4)
-        mask_.append(mask)
+        # mask_.append(mask)
         mask_.append(m1)
         mask_.append(m2)
         mask_.append(m3)
@@ -45,7 +45,6 @@ def random_gamma_transform(img, gamma_vari):
     alpha = np.random.uniform(-log_gamma_vari, log_gamma_vari)
     gamma = np.exp(alpha)
     return gamma_transform(img, gamma)
-
 
 def rotate(xb,yb,angle):
     img_w, img_h = xb.shape[:2]

@@ -8,11 +8,13 @@ from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch', type = int, default = 32)
-parser.add_argument('--root', type = str, default = '../data')
+parser.add_argument('--root', type = str, default = 'data')
 parser.add_argument('--start', type = int, default = 0)
-parser.add_argument('--end', type = int, default = 800)
+parser.add_argument('--end', type = int, default = 180)
 args = parser.parse_args()
-
+# from torchvision import models
+# model = models.segmentation.deeplabv3_resnet101(pretrained=True)
+# model.classifier[4] = nn.Conv2d(256, 1, 1)
 model = UNet()
 model.to('cuda')
 criterion = nn.BCEWithLogitsLoss()

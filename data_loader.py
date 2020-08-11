@@ -24,18 +24,18 @@ def get_img(root):
         m2 = mask.crop((235,235,491,491))
         m3 = mask.crop((235,0,491,256))
         m4 = mask.crop((0,235,256,491))
-        img_.append(img)
-        # img_.append(i1)
-        # img_.append(i2)
-        # img_.append(i3)
-        # img_.append(i4)
-        mask_.append(mask)
-        # mask_.append(m1)
-        # mask_.append(m2)
-        # mask_.append(m3)
-        # mask_.append(m4)
-    img_ = img_[:900]
-    mask_ = mask_[:900]
+        # img_.append(img)
+        img_.append(i1)
+        img_.append(i2)
+        img_.append(i3)
+        img_.append(i4)
+        # mask_.append(mask)
+        mask_.append(m1)
+        mask_.append(m2)
+        mask_.append(m3)
+        mask_.append(m4)
+    img_ = img_[:3600]
+    mask_ = mask_[:3600]
     return img_, mask_
 def gamma_transform(img, gamma):
     gamma_table = [np.power(x / 255.0, gamma) * 255.0 for x in range(256)]
